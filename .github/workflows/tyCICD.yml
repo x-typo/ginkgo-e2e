@@ -31,5 +31,17 @@ jobs:
       - name: Install dependencies
         run: go mod download
 
-      - name: Run Ginkgo E2E Tests
-        run: go test -v ./tests
+      - name: Install go-junit-report
+        run: go install github.com/jstemmer/go-junit-report/v2@latest
+
+      - name: Run Ginkgo E2E Tests and Generate Report
+        run: go test -v -json ./tests | go-junit-report -set-exit-code > report.xml
+
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+
+        if: always()
+        with:
+          name: Ginkgo E2E Test Results
+          path: report.xml
+          reporter: go-junit
