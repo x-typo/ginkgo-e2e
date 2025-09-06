@@ -39,9 +39,8 @@ jobs:
 
       - name: Publish Test Report
         uses: dorny/test-reporter@v1
-
         if: always()
         with:
           name: Ginkgo E2E Test Results
           path: report.xml
-          reporter: go-junit
+          reporter: jest-junit
