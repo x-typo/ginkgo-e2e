@@ -30,6 +30,7 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
               ${{ runner.os }}-go-
+          enableCrossOsArchive: true
             
       - name: Install dependencies
         run: go mod download
