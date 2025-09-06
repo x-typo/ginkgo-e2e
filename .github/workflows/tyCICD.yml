@@ -32,4 +32,4 @@ jobs:
         run: go mod download
 
       - name: Run Ginkgo E2E Tests
-        run: go test -v ./...
+        run: go test -v ./tests
