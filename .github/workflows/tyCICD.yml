@@ -1,5 +1,5 @@
 name: Ginkgo E2E Tests
-run-name: Ginkgo E2E Tests ${{ github.run_number }}
+run-name: Ginkgo E2E Tests - ${{ github.run_number }}
 
 on:
   workflow_dispatch:
