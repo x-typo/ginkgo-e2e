@@ -57,6 +57,5 @@ jobs:
         with:
           check_name: 'Test Results'
           report_individual_runs: true
-          check_run: false
           check_run_annotations: all tests
           files: report.xml
