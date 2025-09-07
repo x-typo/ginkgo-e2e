@@ -1,22 +1,22 @@
 name: Ginkgo E2E Tests
+run-name: Ginkgo E2E Tests ${{ github.run_number }}
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 7 * * *'
 
-  workflow_dispatch:
+permissions:
+  id-token: write
+  contents: write
+  issues: write
+  checks: write
+  pull-requests: write
 
 jobs:
 
   run-e2e-tests:
     runs-on: ubuntu-latest
-
-    permissions:
-      id-token: write
-      contents: write
-      issues: write
-      checks: write
-      pull-requests: write
 
     steps:
       - name: Checkout repository
