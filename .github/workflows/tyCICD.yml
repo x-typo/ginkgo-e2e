@@ -14,9 +14,9 @@ permissions:
   pull-requests: write
 
 jobs:
-
-  run-e2e-tests:
+  build:
     runs-on: ubuntu-latest
+    name: Ginkgo E2E Tests - Run ${{ github.run_number }}
 
     steps:
       - name: Checkout repository
@@ -36,7 +36,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
           enableCrossOsArchive: true
-            
+
       - name: Install dependencies
         run: go mod download
 
