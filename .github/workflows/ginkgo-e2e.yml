@@ -32,6 +32,9 @@ jobs:
         run: go install github.com/onsi/ginkgo/v2/ginkgo
 
       - name: Run Ginkgo E2E Tests and Generate Report
+        env:
+          MAIN_USERNAME: ${{ secrets.MAIN_USERNAME }}
+          MAIN_PASSWORD: ${{ secrets.MAIN_PASSWORD }}
         run: ginkgo -r --junit-report=report.xml
 
       - name: Publish Test Report
