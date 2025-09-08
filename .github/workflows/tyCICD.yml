@@ -62,10 +62,9 @@ jobs:
           check_run_annotations: all tests
           files: report.xml
 
-#      - name: Publish MS Teams
-#        if: always()
-#        run: npx test-results-reporter publish -c configTeams.json
-#        working-directory: ./internal/config
+      - name: Publish MS Teams
+        if: always()
+        run: npx test-results-reporter publish -c internal/config/msteam_report_config.json
 
       - name: Send Email
         uses: dawidd6/action-send-mail@v3.11.0
