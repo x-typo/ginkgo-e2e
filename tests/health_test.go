@@ -18,7 +18,7 @@ var _ = Describe("Health Endpoint Check -", func() {
 		apiClient = clients.NewApiClient()
 	})
 
-	It("Return a 200 OK status with a success message", func() {
+	It("return a 200 OK status with a success message", func() {
 		resp, err := services.CheckHealth(apiClient)
 
 		Expect(err).NotTo(HaveOccurred())

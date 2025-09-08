@@ -19,7 +19,7 @@ var _ = Describe("User Login Endpoint -", func() {
 		apiClient = clients.NewApiClient()
 	})
 
-	It("should return a 200 OK status and a valid token", func() {
+	It("return a 200 OK status and a valid token", func() {
 
 		email := os.Getenv("MAIN_USERNAME")
 		password := os.Getenv("MAIN_PASSWORD")
