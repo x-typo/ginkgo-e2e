@@ -47,9 +47,10 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: Ginkgo E2E Test Results
+          name: Ginkgo E2E Test Results - Run ${{ github.run_number }}
           path: report.xml
           reporter: jest-junit
+          fail-on-error: false
 
       - name: Publish Results to Summary
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -71,5 +72,5 @@ jobs:
           password: ${{secrets.MAIL_PASSWORD}}
           from: xtyponemo@gmail.com
           to: x-typo@outlook.com
-          subject: Ginkgo E2E Tests Results - Chrome
+          subject: Ginkgo E2E Tests Results
           body: View here for detailed reports - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
