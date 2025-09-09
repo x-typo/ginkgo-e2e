@@ -11,7 +11,7 @@ import (
 	"github.com/x-typ/ginkgo-e2e/internal/services"
 )
 
-var _ = Describe("Health Endpoint Check -", func() {
+var _ = Describe("Health Endpoint -", func() {
 	var apiClient *resty.Client
 
 	BeforeEach(func() {
