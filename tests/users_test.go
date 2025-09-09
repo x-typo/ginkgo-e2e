@@ -12,7 +12,7 @@ import (
 	"github.com/x-typ/ginkgo-e2e/internal/services"
 )
 
-var _ = Describe("User Endpoint -", func() {
+var _ = Describe("User -", func() {
 	var (
 		apiClient *resty.Client
 		email     string

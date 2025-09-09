@@ -12,7 +12,7 @@ import (
 	"github.com/x-typ/ginkgo-e2e/internal/services"
 )
 
-var _ = Describe("Login Endpoint -", func() {
+var _ = Describe("Login -", func() {
 	var apiClient *resty.Client
 
 	BeforeEach(func() {
