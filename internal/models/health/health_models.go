@@ -1,7 +1,7 @@
 package health
 
+import "github.com/x-typ/ginkgo-e2e/internal/models/shared"
+
 type HealthResponse struct {
-	Success bool   `json:"success"`
-	Status  int    `json:"status"`
-	Message string `json:"message"`
+	shared.BaseResponse
 }
