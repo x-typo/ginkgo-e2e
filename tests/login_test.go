@@ -12,7 +12,7 @@ import (
 	"github.com/x-typ/ginkgo-e2e/internal/services"
 )
 
-var _ = Describe("User Login Endpoint -", func() {
+var _ = Describe("Login Endpoint -", func() {
 	var apiClient *resty.Client
 
 	BeforeEach(func() {
@@ -20,23 +20,30 @@ var _ = Describe("User Login Endpoint -", func() {
 	})
 
 	It("return a 200 OK status and a valid token", func() {
+		var email, password string
 
-		email := os.Getenv("MAIN_USERNAME")
-		password := os.Getenv("MAIN_PASSWORD")
+		By("getting credentials from environment variables", func() {
+			email = os.Getenv("MAIN_USERNAME")
+			password = os.Getenv("MAIN_PASSWORD")
 
-		Expect(email).NotTo(BeEmpty(), "MAIN_USERNAME environment variable not set")
-		Expect(password).NotTo(BeEmpty(), "MAIN_PASSWORD environment variable not set")
+			Expect(email).NotTo(BeEmpty(), "MAIN_USERNAME environment variable not set")
+			Expect(password).NotTo(BeEmpty(), "MAIN_PASSWORD environment variable not set")
+		})
 
-		resp, err := services.LoginUser(apiClient, email, password)
+		By("making a login request to endpoint", func() {
+			resp, err := services.LoginUser(apiClient, email, password)
 
-		Expect(err).NotTo(HaveOccurred())
-		Expect(resp.StatusCode()).To(Equal(http.StatusOK))
+			Expect(err).NotTo(HaveOccurred())
+			Expect(resp.StatusCode()).To(Equal(http.StatusOK))
 
-		loginResponse := resp.Result().(*auth.LoginResponse)
+			loginResponse := resp.Result().(*auth.LoginResponse)
 
-		Expect(loginResponse.Success).To(BeTrue())
-		Expect(loginResponse.Message).To(Equal("Login successful"))
-		Expect(loginResponse.Data.Email).To(Equal(email))
-		Expect(loginResponse.Data.Token).NotTo(BeEmpty())
+			By("verifying the response body payload", func() {
+				Expect(loginResponse.Success).To(BeTrue())
+				Expect(loginResponse.Message).To(Equal("Login successful"))
+				Expect(loginResponse.Data.Email).To(Equal(email))
+				Expect(loginResponse.Data.Token).NotTo(BeEmpty())
+			})
+		})
 	})
 })
