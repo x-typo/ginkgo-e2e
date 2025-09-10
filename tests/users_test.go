@@ -9,6 +9,7 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/x-typ/ginkgo-e2e/internal/clients"
 	"github.com/x-typ/ginkgo-e2e/internal/models/auth"
+	"github.com/x-typ/ginkgo-e2e/internal/models/shared"
 	"github.com/x-typ/ginkgo-e2e/internal/services"
 )
 
@@ -80,6 +81,41 @@ var _ = Describe("User -", func() {
 					Expect(profileResponse.Data.Phone).To(Equal("5556667777"))
 					Expect(profileResponse.Data.Company).To(Equal("Test Company"))
 				})
+			})
+		})
+	})
+
+	Context("when logging out", func() {
+		var token string
+
+		BeforeEach(func() {
+			By("authenticating the user to get a token", func() {
+				loginResp, loginErr := services.LoginUser(apiClient, email, password)
+				Expect(loginErr).NotTo(HaveOccurred())
+				Expect(loginResp.StatusCode()).To(Equal(http.StatusOK))
+				token = loginResp.Result().(*auth.LoginResponse).Data.Token
+				Expect(token).NotTo(BeEmpty())
+			})
+		})
+
+		It("should successfully log out the user and invalidate the token", func() {
+			By("making a request to the logout endpoint", func() {
+				logoutResp, logoutErr := services.LogoutUser(apiClient, token)
+
+				Expect(logoutErr).NotTo(HaveOccurred())
+				Expect(logoutResp.StatusCode()).To(Equal(http.StatusOK))
+
+				logoutResponse := logoutResp.Result().(*shared.BaseResponse)
+
+				Expect(logoutResponse.Success).To(BeTrue())
+				Expect(logoutResponse.Message).To(Equal("User has been successfully logged out"))
+			})
+
+			By("verifying the token is no longer valid", func() {
+				profileResp, profileErr := services.GetUserProfile(apiClient, token)
+
+				Expect(profileErr).NotTo(HaveOccurred())
+				Expect(profileResp.StatusCode()).To(Equal(http.StatusUnauthorized))
 			})
 		})
 	})
