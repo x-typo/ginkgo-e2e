@@ -19,13 +19,3 @@ func LoginUser(client *resty.Client, email string, password string) (*resty.Resp
 		Post(routes.LoginEndpoint)
 	return resp, err
 }
-
-func GetUserProfile(client *resty.Client, token string) (*resty.Response, error) {
-	var userProfileResponse auth.UserProfileInfoResponse
-
-	resp, err := client.R().
-		SetHeader("x-auth-token", token).
-		SetResult(&userProfileResponse).
-		Get(routes.GetUserInfoEndpoint)
-	return resp, err
-}
