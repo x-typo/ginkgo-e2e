@@ -60,14 +60,15 @@ jobs:
           check_run_annotations: all tests
           files: report.xml
 
-      - name: Prepare Teams config
+      - name: Prepare MS Teams Config
         run: |
           envsubst < internal/config/msteam_report_config.json > msteam_report_config_resolved.json
-
-      - name: Publish MS Teams
-        run: npx test-results-reporter publish -c msteam_report_config_resolved.json
         env:
           TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+
+      - name: Publish MS Teams Report
+        if: always()
+        run: npx test-results-reporter publish -c msteam_report_config_resolved.json
 
       - name: Send Email
         uses: dawidd6/action-send-mail@v3.11.0
