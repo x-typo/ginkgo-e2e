@@ -1,0 +1,74 @@
+name: Ginkgo E2E Tests
+run-name: Ginkgo E2E Tests - ${{ github.run_number }}
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * *'
+
+jobs:
+  run-e2e-tests:
+    runs-on: ubuntu-latest
+    name: Ginkgo E2E Tests - Run ${{ github.run_number }}
+
+    permissions:
+      checks: write
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24.6'
+          cache: true
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Install Ginkgo CLI
+        run: go install github.com/onsi/ginkgo/v2/ginkgo
+
+      - name: Run Ginkgo E2E Tests and Generate Report
+        env:
+          MAIN_USERNAME: ${{ secrets.MAIN_USERNAME }}
+          MAIN_PASSWORD: ${{ secrets.MAIN_PASSWORD }}
+        run: ginkgo -r --junit-report=report.xml
+
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Ginkgo E2E Test Results - Run ${{ github.run_number }}
+          path: report.xml
+          reporter: jest-junit
+          fail-on-error: false
+
+      - name: Publish Results to Summary
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          check_name: 'Test Results'
+          report_individual_runs: true
+          check_run: false
+          check_run_annotations: all tests
+          files: report.xml
+
+      - name: Publish MS Teams
+        if: always()
+        run: npx test-results-reporter publish -c internal/config/msteam_report_config.json
+
+      - name: Send Email
+        uses: dawidd6/action-send-mail@v3.11.0
+        if: always()
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          from: xtyponemo@gmail.com
+          to: x-typo@outlook.com
+          subject: Ginkgo E2E Tests Results
+          body: Detailed reports - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

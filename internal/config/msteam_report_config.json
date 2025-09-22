@@ -1,0 +1,43 @@
+{
+  "targets": [
+    {
+      "name": "teams",
+      "condition": "always",
+      "inputs": {
+        "url": "TBD",
+        "publish": "test-summary-slim",
+        "title": "Ginkgo API Test Suite Results",
+        "title_link": "https://github.com/x-typo/ginkgo-e2e",
+        "width": "full"
+      },
+      "extensions": [
+        {
+          "name": "hyperlinks",
+          "condition": "always",
+          "inputs": {
+            "links": [
+              {
+                "text": "GitHub - x-typo",
+                "url": "https://github.com/x-typo"
+              },
+              {
+                "text": "Repo - Ginkgo E2E",
+                "url": "https://github.com/x-typo/ginkgo-e2e"
+              },
+              {
+                "text": "TestRail Reports",
+                "url": "https://testrail.com"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "type": "junit",
+      "files": ["report.xml"]
+    }
+  ]
+}
