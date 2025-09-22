@@ -4,8 +4,8 @@
       "name": "teams",
       "condition": "always",
       "inputs": {
-        "url": "$TEAMS_WEBHOOK_URL",
-        "publish": "test-summary-slim",
+        "url": ",${{ secrets.TEAMS_WEBHOOK_URL }}",
+    "publish": "test-summary-slim",
         "title": "Ginkgo API Test Suite Results",
         "title_link": "https://github.com/x-typo/ginkgo-e2e",
         "width": "full"
