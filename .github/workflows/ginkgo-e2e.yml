@@ -3,8 +3,8 @@ run-name: Ginkgo E2E Tests - ${{ github.run_number }}
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 7 * * *'
+  # schedule:
+  #   - cron: '0 7 * * *'
 
 jobs:
   run-e2e-tests:
@@ -18,7 +18,7 @@ jobs:
     env:
       MAIN_USERNAME: ${{ secrets.MAIN_USERNAME }}
       MAIN_PASSWORD: ${{ secrets.MAIN_PASSWORD }}
-      MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+      MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}s
       MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
       TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
 
