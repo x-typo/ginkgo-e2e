@@ -29,7 +29,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24.6'
+          go-version: "1.24.6"
           cache: true
 
       - name: Install dependencies
@@ -54,7 +54,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          check_name: 'Test Results'
+          check_name: "Test Results"
           report_individual_runs: true
           check_run: false
           check_run_annotations: all tests
